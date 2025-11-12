@@ -1,0 +1,124 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Payment Failed") }}{% endblock %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block header %}
+	<h3 class="m-0">{{ _("Payment Failed") }}</h3>
+{% endblock %}
+
+{% block page_content %}
+<div class="payment-fail-container">
+	<div class="payment-fail-card">
+		<div class="fail-indicator">
+			<span class="indicator red">
+				{{ _("Failed") }}
+			</span>
+		</div>
+		
+		<div class="payment-message">
+			<h4>{{ payment_message or _("Your payment could not be processed") }}</h4>
+			
+			<p class="text-muted mt-3">
+				{{ _("Please try again or contact support if the problem persists.") }}
+			</p>
+			
+			{% if order_name %}
+			<p class="text-muted mt-2">
+				{{ _("Order Reference") }}: <strong>{{ order_name }}</strong>
+			</p>
+			{% endif %}
+			
+			{% if order_total %}
+			<p class="text-muted">
+				{{ _("Order Amount") }}: <strong>{{ order_total }}</strong>
+			</p>
+			{% endif %}
+		</div>
+		
+		<div class="payment-actions mt-4">
+			{% if order_name %}
+			<a href="/orders/{{ order_name }}" class="btn btn-primary btn-lg">
+				{{ _("Try Again") }}
+			</a>
+			{% endif %}
+			
+			<a href="/orders" class="btn btn-secondary btn-lg">
+				{{ _("View Orders") }}
+			</a>
+			
+			<a href="/all-products" class="btn btn-outline-secondary btn-lg">
+				{{ _("Continue Shopping") }}
+			</a>
+		</div>
+		
+		<div class="help-text mt-4">
+			<p class="text-muted small">
+				{{ _("Need help?") }} 
+				<a href="/contact">{{ _("Contact Support") }}</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+<style>
+.payment-fail-container {
+	padding: 2rem 0;
+	background-color: #f5f7fa;
+	min-height: 60vh;
+}
+
+.payment-fail-card {
+	background: white;
+	border-radius: 8px;
+	padding: 3rem;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.fail-indicator {
+	margin-bottom: 1.5rem;
+}
+
+.payment-message {
+	margin-bottom: 2rem;
+}
+
+.payment-message h4 {
+	color: #dc3545;
+	margin-bottom: 1rem;
+}
+
+.payment-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.help-text {
+	border-top: 1px solid #e9ecef;
+	padding-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+	.payment-fail-card {
+		padding: 2rem 1.5rem;
+	}
+	
+	.payment-actions {
+		flex-direction: column;
+	}
+	
+	.payment-actions .btn {
+		width: 100%;
+	}
+}
+</style>
+{% endblock %}
+

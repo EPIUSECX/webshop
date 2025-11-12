@@ -1,0 +1,123 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Payment Success") }}{% endblock %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block header %}
+	<h3 class="m-0">{{ _("Payment Successful") }}</h3>
+{% endblock %}
+
+{% block page_content %}
+<div class="payment-success-container">
+	<div class="payment-success-card">
+		<div class="success-indicator">
+			<span class="indicator green">
+				{{ _("Success") }}
+			</span>
+		</div>
+		
+		<div class="payment-message">
+			<h4>{{ payment_message or _("Your payment was successfully processed") }}</h4>
+			
+			{% if order_name %}
+			<p class="text-muted">
+				{{ _("Order Reference") }}: <strong>{{ order_name }}</strong>
+			</p>
+			{% endif %}
+			
+			{% if order_total %}
+			<p class="text-muted">
+				{{ _("Amount Paid") }}: <strong>{{ order_total }}</strong>
+			</p>
+			{% endif %}
+		</div>
+		
+		{% if error_message %}
+		<div class="alert alert-warning">
+			{{ error_message }}
+		</div>
+		{% endif %}
+		
+		<div class="payment-actions mt-4">
+			{% if order_name %}
+			<a href="/orders/{{ order_name }}" class="btn btn-primary btn-lg">
+				{{ _("View Order") }}
+			</a>
+			{% endif %}
+			
+			<a href="/orders" class="btn btn-secondary btn-lg">
+				{{ _("View All Orders") }}
+			</a>
+			
+			<a href="/all-products" class="btn btn-outline-secondary btn-lg">
+				{{ _("Continue Shopping") }}
+			</a>
+		</div>
+	</div>
+</div>
+
+<style>
+.payment-success-container {
+	padding: 2rem 0;
+}
+
+.payment-success-card {
+	background: white;
+	border-radius: 8px;
+	padding: 3rem;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.success-indicator {
+	margin-bottom: 1.5rem;
+}
+
+.payment-message {
+	margin-bottom: 2rem;
+}
+
+.payment-message h4 {
+	color: #28a745;
+	margin-bottom: 1rem;
+}
+
+.payment-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.payment-success-card {
+		padding: 2rem 1.5rem;
+	}
+	
+	.payment-actions {
+		flex-direction: column;
+	}
+	
+	.payment-actions .btn {
+		width: 100%;
+	}
+}
+</style>
+
+<script>
+frappe.ready(function() {
+	// Auto-redirect after 5 seconds if redirect_to is provided
+	{% if redirect_to and redirect_to != "/" %}
+	setTimeout(function() {
+		window.location.href = '{{ redirect_to }}';
+	}, 5000);
+	{% endif %}
+});
+</script>
+{% endblock %}
+
